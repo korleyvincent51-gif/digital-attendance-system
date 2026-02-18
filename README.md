@@ -36,3 +36,13 @@ int main() {
     } while (choice != 3);
     return 0;
 } digital-attendance-system
+# Digital Attendance System
+
+A simple attendance management system implemented in C++.
+
+## Development Environment
+- VS Code
+- C++ Compiler 
+
+## Author
+Korley Vincent Kojo -01240218D
