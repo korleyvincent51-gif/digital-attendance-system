@@ -1,5 +1,5 @@
 ## Student Information
-Name: Korley Vincent Kojo 
+Name: Korley Vincent 
 Course: Electrical and Electronics Engineering  
 Institution: Accra Technical University  
 Level: 200
