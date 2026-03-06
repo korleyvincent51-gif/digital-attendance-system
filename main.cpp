@@ -3,6 +3,9 @@
 #include <fstream>
 using namespace std;
 
+//////////////////////////////////////////////////
+// STUDENT CLASS
+//////////////////////////////////////////////////
 class Student {
 public:
     int id;
@@ -14,6 +17,9 @@ public:
     }
 };
 
+//////////////////////////////////////////////////
+// ATTENDANCE SESSION CLASS
+//////////////////////////////////////////////////
 class AttendanceSession {
 public:
     string date;
@@ -31,6 +37,7 @@ vector<AttendanceSession> sessions;
 // ADD STUDENT
 //////////////////////////////////////////////////
 void addStudent() {
+
     int id;
     string name;
 
@@ -38,6 +45,7 @@ void addStudent() {
     cin >> id;
 
     cin.ignore();
+
     cout << "Enter Student Name: ";
     getline(cin, name);
 
@@ -50,33 +58,41 @@ void addStudent() {
 // VIEW STUDENTS
 //////////////////////////////////////////////////
 void viewStudents() {
+
     if (students.size() == 0) {
         cout << "No students available.\n";
         return;
     }
 
+    cout << "\nID\tName\n";
+    cout << "-----------------\n";
+
     for (int i = 0; i < students.size(); i++) {
-        cout << students[i].id << " - " << students[i].name << endl;
+        cout << students[i].id << "\t" << students[i].name << endl;
     }
 }
 
 //////////////////////////////////////////////////
-// CREATE SESSION + MARK ATTENDANCE
+// MARK ATTENDANCE
 //////////////////////////////////////////////////
 void markAttendance() {
+
     if (students.size() == 0) {
         cout << "Add students first!\n";
         return;
     }
 
     string date;
+
     cout << "Enter session date: ";
     cin >> date;
 
     AttendanceSession session(date);
 
     for (int i = 0; i < students.size(); i++) {
+
         char choice;
+
         cout << "Is " << students[i].name << " present? (y/n): ";
         cin >> choice;
 
@@ -86,21 +102,24 @@ void markAttendance() {
     }
 
     sessions.push_back(session);
-    cout << "Attendance recorded!\n";
+
+    cout << "Attendance recorded successfully!\n";
 }
 
 //////////////////////////////////////////////////
 // VIEW REPORT
 //////////////////////////////////////////////////
 void viewReport() {
+
     if (sessions.size() == 0) {
         cout << "No sessions recorded.\n";
         return;
     }
 
     for (int i = 0; i < sessions.size(); i++) {
+
         cout << "\nDate: " << sessions[i].date << endl;
-        cout << "Present students:\n";
+        cout << "Present Students IDs:\n";
 
         for (int j = 0; j < sessions[i].presentIDs.size(); j++) {
             cout << sessions[i].presentIDs[j] << endl;
@@ -109,9 +128,30 @@ void viewReport() {
 }
 
 //////////////////////////////////////////////////
-// SAVE TO FILE
+// EXPORT TO EXCEL (CSV)
+//////////////////////////////////////////////////
+void exportToExcel() {
+
+    ofstream file("attendance_report.csv");
+
+    file << "ID,Name\n";
+
+    for (int i = 0; i < students.size(); i++) {
+        file << students[i].id << "," << students[i].name << "\n";
+    }
+
+    file.close();
+
+    cout << "\nData successfully exported to Excel file.\n";
+    cout << "File name: attendance_report.csv\n";
+    cout << "Open it using Microsoft Excel.\n";
+}
+
+//////////////////////////////////////////////////
+// SAVE STUDENTS
 //////////////////////////////////////////////////
 void saveData() {
+
     ofstream file("students.txt");
 
     for (int i = 0; i < students.size(); i++) {
@@ -119,13 +159,15 @@ void saveData() {
     }
 
     file.close();
-    cout << "Students saved to file.\n";
+
+    cout << "Students saved successfully.\n";
 }
 
 //////////////////////////////////////////////////
-// LOAD FROM FILE
+// LOAD STUDENTS
 //////////////////////////////////////////////////
 void loadData() {
+
     ifstream file("students.txt");
 
     students.clear();
@@ -138,36 +180,68 @@ void loadData() {
     }
 
     file.close();
-    cout << "Students loaded.\n";
+
+    cout << "Students loaded successfully.\n";
 }
 
 //////////////////////////////////////////////////
-// MENU
+// MAIN MENU
 //////////////////////////////////////////////////
 int main() {
+
     int choice;
 
     do {
-        cout << "\n===== ATTENDANCE SYSTEM =====\n";
+
+        cout << "\n====== DIGITAL ATTENDANCE SYSTEM ======\n";
         cout << "1. Add Student\n";
         cout << "2. View Students\n";
         cout << "3. Mark Attendance\n";
-        cout << "4. View Report\n";
-        cout << "5. Save Students\n";
-        cout << "6. Load Students\n";
+        cout << "4. View Attendance Report\n";
+        cout << "5. Export to Excel\n";
+        cout << "6. Save Students\n";
+        cout << "7. Load Students\n";
         cout << "0. Exit\n";
-        cout << "Choose: ";
+
+        cout << "Enter your choice: ";
         cin >> choice;
 
         switch(choice) {
-            case 1: addStudent(); break;
-            case 2: viewStudents(); break;
-            case 3: markAttendance(); break;
-            case 4: viewReport(); break;
-            case 5: saveData(); break;
-            case 6: loadData(); break;
-            case 0: cout << "Goodbye!\n"; break;
-            default: cout << "Invalid choice\n";
+
+            case 1:
+                addStudent();
+                break;
+
+            case 2:
+                viewStudents();
+                break;
+
+            case 3:
+                markAttendance();
+                break;
+
+            case 4:
+                viewReport();
+                break;
+
+            case 5:
+                exportToExcel();
+                break;
+
+            case 6:
+                saveData();
+                break;
+
+            case 7:
+                loadData();
+                break;
+
+            case 0:
+                cout << "Exiting program...\n";
+                break;
+
+            default:
+                cout << "Invalid choice!\n";
         }
 
     } while(choice != 0);
